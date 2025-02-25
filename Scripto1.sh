@@ -21,7 +21,7 @@ registrar_entrada() {
 
     # Verificar si el ID existe
     if ! verificar_id "$ID"; then
-        echo "❌ ERROR: ID no encontrado. Contacta con administración."
+        echo "ERROR: ID no encontrado. Contacta con administración."
         exit 1
     fi
 
@@ -31,10 +31,10 @@ registrar_entrada() {
 
     # Verificar si ya hay una entrada registrada hoy
     if grep -q "^$ID,$NOMBRE,$FECHA" "$FILE_HORAS"; then
-        echo "⚠️ Ya tienes una entrada registrada hoy."
+        echo "Ya tienes una entrada registrada hoy."
     else
         echo "$ID,$NOMBRE,$FECHA,$HORA_ENTRADA,," >> "$FILE_HORAS"
-        echo "✅ Entrada registrada: $HORA_ENTRADA"
+        echo "Entrada registrada: $HORA_ENTRADA"
     fi
 }
 
@@ -45,7 +45,7 @@ registrar_salida() {
 
     # Verificar si el ID existe
     if ! verificar_id "$ID"; then
-        echo "❌ ERROR: ID no encontrado."
+        echo "ERROR: ID no encontrado."
         exit 1
     fi
 
@@ -71,10 +71,10 @@ registrar_salida() {
         # Actualizar la línea en el archivo
         sed -i "s|^$ID,.*,$FECHA,$HORA_ENTRADA,,|$ID,$(echo "$LINEA" | cut -d ',' -f 2-4),$HORA_SALIDA,$HORAS_TRABAJADAS|" "$FILE_HORAS"
 
-        echo "✅ Salida registrada: $HORA_SALIDA"
-        echo "🕒 Total de horas trabajadas hoy: $HORAS_TRABAJADAS"
+        echo "Salida registrada: $HORA_SALIDA"
+        echo "Total de horas trabajadas hoy: $HORAS_TRABAJADAS"
     else
-        echo "⚠️ No tienes una entrada registrada para hoy."
+        echo "No tienes una entrada registrada para hoy."
     fi
 }
 
@@ -87,5 +87,5 @@ read OPCION
 case $OPCION in
     1) registrar_entrada ;;
     2) registrar_salida ;;
-    *) echo "❌ Opción no válida." ;;
+    *) echo "Opción no válida." ;;
 esac
