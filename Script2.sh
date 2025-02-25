@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Archivo de datos
-FILE_HORAS="horas_trabajo.csv"
-FILE_TRABAJADORES="trabajadores.csv"
+INFORME_HORAS="informe_horas.csv"
+INFORME_TRABAJADORES="trabajadores.csv"
 
 # Función para verificar si el ID existe
 verificar_id() {
-    grep -q "^$1," "$FILE_TRABAJADORES"
+    grep -q "^$1," "$INFORME_TRABAJADORES"
 }
 
 # Función para calcular horas trabajadas
@@ -20,10 +20,10 @@ calcular_horas() {
         exit 1
     fi
 
-    NOMBRE=$(grep "^$ID," "$FILE_TRABAJADORES" | cut -d ',' -f2)
+    NOMBRE=$(grep "^$ID," "$INFORME_TRABAJADORES" | cut -d ',' -f2)
 
     echo "Horas trabajadas por día:"
-    awk -F ',' -v id="$ID" '$1 == id { horas[$3] += $6 } END { for (d in horas) print d, horas[d] " horas" }' "$FILE_HORAS"
+    awk -F ',' -v id="$ID" '$1 == id { horas[$3] += $6 } END { for (d in horas) print d, horas[d] " horas" }' "$INFORME_HORAS"
 
     echo ""
     echo "Horas trabajadas por semana:"
@@ -33,11 +33,11 @@ calcular_horas() {
         semana = strftime("%Y-W%V", mktime(fecha[1] " " fecha[2] " " fecha[3] " 00 00 00"))
         horas[semana] += $6
     }
-    END { for (s in horas) print s, horas[s] " horas" }' "$FILE_HORAS"
+    END { for (s in horas) print s, horas[s] " horas" }' "$INFORME_HORAS"
 
     echo ""
     echo "Horas trabajadas por mes:"
-    awk -F ',' -v id="$ID" '$1 == id { split($3, fecha, "-"); mes=fecha[1] "-" fecha[2]; horas[mes] += $6 } END { for (m in horas) print m, horas[m] " horas" }' "$FILE_HORAS"
+    awk -F ',' -v id="$ID" '$1 == id { split($3, fecha, "-"); mes=fecha[1] "-" fecha[2]; horas[mes] += $6 } END { for (m in horas) print m, horas[m] " horas" }' "$INFORME_HORAS"
 }
 
 calcular_horas
