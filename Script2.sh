@@ -4,7 +4,7 @@
 INFORME_HORAS="informe_horas.csv"
 INFORME_TRABAJADORES="trabajadores.csv"
 
-# Función que servirá para verificar si el ID existe
+# Función que servirá para verificar si el ID existe en el informe de trabajadores
 verificar_id() {
     grep -q "^$1," "$INFORME_TRABAJADORES"
 }
